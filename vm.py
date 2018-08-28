@@ -1,6 +1,7 @@
 class VendingMachine:
     def __init__(self):
         self._change = 0
+        self._known_coins = "10,50,100,500".split(",")
 
     def run(self, raw):
         tokens = raw.split(" ")
@@ -8,14 +9,18 @@ class VendingMachine:
 
         if cmd == "잔액":
             return "잔액은 " + str(self._change) + "원입니다"
+
         elif cmd == "동전":
             # known_coins = ["10", "50", "100", "500"]
-            known_coins = "10,50,100,500".split(",")
+            # known_coins = "10,50,100,500".split(",")
             coin = params[0]
-            if coin not in known_coins:
+            if coin not in self._known_coins:
                 return "알 수 없는 동전입니다"
             self._change += int(coin)
             return coin + "원을 넣었습니다"
+        elif cmd == "반환":
+
+
         elif cmd == "음료":
             beverage = params[0]
             known_beverages = {
@@ -30,10 +35,22 @@ class VendingMachine:
                 return "잔액이 부족합니다"
             self._change = self._change - price
             return beverage + "가 나왔습니다"
+
         else:
             return "알 수 없는 명령입니다"
 
+# 잔돈 반환을 재귀함수(recursive function)로 푸는 방법 - 애란쌤
 
+# def calc_change(amount):
+#     if amount == 0:
+#         return []
+#
+#     coins = [500, 100, 50, 10]
+#     coin = [c for c in coins if c <= amount][0]
+#     return [coin] + calc_change(amount - coin)
+#
+# result = calc_change(670)
+# repr = ','.join([str(c) + "원" for c in result])
 
 # class VendingMachine:  # 타입을 만든다 # 메세지는 인스턴스에게 보내진다.
 #     def __init__(self):  # 이닛은 벤딩머신 클래스가 호출되는 순간 실행된다. self는 지금 만들어진 인스턴스를 말함
